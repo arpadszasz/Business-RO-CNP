@@ -1,0 +1,124 @@
+NAME
+    Business::RO::CNP - Romanian CNP validation
+
+VERSION
+    Version 0.01
+
+SYNOPSIS
+    This module checks the validation of CNP (personal numeric code) of
+    Romania's citizens and offers information about the person.
+
+     use Business::RO::CNP;
+
+     my $cnp = Business::RO::CNP->new(cnp => 1551029000000);
+     #or:
+     my $cnp = Business::RO::CNP->new(1551029000000);
+
+     print $cnp->valid ? "The CNP is valid" : "The CNP is not valid";
+
+     print $cnp->sex;
+     print $cnp->sex_id;
+     print $cnp->birthday;
+     print $cnp->birthday->ymd;
+     print $cnp->birthday->strftime('%d %m %y');
+     print $cnp->birthday->set_locale('ro')->month_name;
+     print $cnp->county;
+     print $cnp->county_id;
+     print $cnp->order_number;
+     print $cnp->checksum;
+     print $cnp->validator;
+     print $cnp->cnp;
+
+METHODS
+  valid
+    This method returns 1 if the CNP is valid or 0 otherwise.
+
+  sex
+    This method returns 'm' if the person is a male or 'f' if is a female.
+
+    The method returns 'unknown' if the sex id of the person (the first
+    digit in the CNP) is 9 (for non-romanian citizens).
+
+  sex_id
+    The method returns the first digit of the CNP. This digit is odd for men
+    and even for women. It is 1 or 2 for those born between January 1 1900
+    and December 31 1999, 3 or 4 for those born between January 1 1800 and
+    December 31 1899, 5 or 6 for those born between January 1 2000 and
+    December 31 2099 and 7 or 8 for foreign citizens resident in Romania.
+
+    The sex id 9 is also reserved for foreign citizens.
+
+  birthday
+    This method returns a DateTime object that holds the birth day of the
+    person so you can call any DateTime methods on it as exemplified in the
+    SYNOPSIS.
+
+  county
+    This method returns the county where the person was born or where he
+    received the CNP.
+
+  county_id
+    This method returns the county ID which is the pair of digits 8 and 9 in
+    the CNP.
+
+    Bucharest has the ID 40 but its sectors also have their own IDs.
+
+  checksum
+    This method returns the last digit in the CNP and represents a
+    pre-calculated value based on the first 12 digits of the CNP.
+
+  validator
+    This method calculates the checksum from the first 12 digits of the CNP
+    and it should be equal to the result of the checksum method in order to
+    prove that the CNP is valid.
+
+  cnp
+    This method returns the CNP given as parameter to the object
+    constructor.
+
+AUTHOR
+    Octavian Rasnita, "<orasnita at gmail.com>"
+
+BUGS
+    Please report any bugs or feature requests to "bug-business-ro-cnp at
+    rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Business-RO-CNP>. I will
+    be notified, and then you'll automatically be notified of progress on
+    your bug as I make changes.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Business::RO::CNP
+
+    You can also look for information at:
+
+    *   RT: CPAN's request tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Business-RO-CNP>
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/Business-RO-CNP>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/Business-RO-CNP>
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/Business-RO-CNP/>
+
+ACKNOWLEDGEMENTS
+    I found the algorithm for CNP validation on <http://www.validari.ro/cnp>
+    and the counties IDs on
+    <http://ro.wikipedia.org/wiki/Cod_numeric_personal>.
+
+LICENSE AND COPYRIGHT
+    Copyright 2010 Octavian Rasnita.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of either: the GNU General Public License as published
+    by the Free Software Foundation; or the Artistic License.
+
+    See http://dev.perl.org/licenses/ for more information.
