@@ -7,7 +7,9 @@ license  'perl';
 
 build_requires 'Test::More';
 
-requires 'DateTime';
+requires 'Moose';
+requires 'utf8';
+requires 'DateTime::Format::Strptime';
 
 auto_install;
 

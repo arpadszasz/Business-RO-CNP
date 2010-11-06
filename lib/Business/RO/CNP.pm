@@ -4,7 +4,7 @@ use Moose;
 use DateTime::Format::Strptime;
 use utf8;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 around BUILDARGS => sub {
   my ($orig, $class) = (shift, shift);
@@ -141,7 +141,7 @@ Business::RO::CNP - Romanian CNP validation
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
@@ -149,9 +149,9 @@ This module checks the validation of CNP (personal numeric code) of Romania's ci
 
  use Business::RO::CNP;
 
- my $cnp = Business::RO::CNP->new(cnp => 1551029000000);
+ my $cnp = Business::RO::CNP->new(cnp => 1040229319996);
  #or:
- my $cnp = Business::RO::CNP->new(1551029000000);
+ my $cnp = Business::RO::CNP->new(1040229319996);
 
  print $cnp->valid ? "The CNP is valid" : "The CNP is not valid";
 
@@ -174,11 +174,15 @@ This module checks the validation of CNP (personal numeric code) of Romania's ci
 
 This method returns 1 if the CNP is valid or 0 otherwise.
 
+It returns 1 when the C<birthday> method returns a valid birth date and when the last digit of the CNP returned by the method C<checksum> is equal to the value returned by the method C<validator>.
+
 =head2 sex
 
 This method returns 'm' if the person is a male or 'f' if is a female.
 
 The method returns 'unknown' if the sex id of the person (the first digit in the CNP) is 9 (for non-romanian citizens).
+
+When the first digit of the CNP is 1, 3, 5 or 7, this method returns 'm' and when it is 2, 4, 6 or 8, this method returns 'f'.
 
 =head2 sex_id
 
@@ -189,6 +193,8 @@ The sex id 9 is also reserved for foreign citizens.
 =head2 birthday
 
 This method returns a L<DateTime> object that holds the birth day of the person so you can call any DateTime methods on it as exemplified in the SYNOPSIS.
+
+Check the L<DateTime> module for finding out what methods you can use with this object.
 
 =head2 county
 

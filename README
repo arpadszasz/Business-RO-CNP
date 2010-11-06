@@ -2,7 +2,7 @@ NAME
     Business::RO::CNP - Romanian CNP validation
 
 VERSION
-    Version 0.01
+    Version 0.02
 
 SYNOPSIS
     This module checks the validation of CNP (personal numeric code) of
@@ -10,9 +10,9 @@ SYNOPSIS
 
      use Business::RO::CNP;
 
-     my $cnp = Business::RO::CNP->new(cnp => 1551029000000);
+     my $cnp = Business::RO::CNP->new(cnp => 1040229319996);
      #or:
-     my $cnp = Business::RO::CNP->new(1551029000000);
+     my $cnp = Business::RO::CNP->new(1040229319996);
 
      print $cnp->valid ? "The CNP is valid" : "The CNP is not valid";
 
@@ -33,11 +33,18 @@ METHODS
   valid
     This method returns 1 if the CNP is valid or 0 otherwise.
 
+    It returns 1 when the "birthday" method returns a valid birth date and
+    when the last digit of the CNP returned by the method "checksum" is
+    equal to the value returned by the method "validator".
+
   sex
     This method returns 'm' if the person is a male or 'f' if is a female.
 
     The method returns 'unknown' if the sex id of the person (the first
     digit in the CNP) is 9 (for non-romanian citizens).
+
+    When the first digit of the CNP is 1, 3, 5 or 7, this method returns 'm'
+    and when it is 2, 4, 6 or 8, this method returns 'f'.
 
   sex_id
     The method returns the first digit of the CNP. This digit is odd for men
@@ -52,6 +59,9 @@ METHODS
     This method returns a DateTime object that holds the birth day of the
     person so you can call any DateTime methods on it as exemplified in the
     SYNOPSIS.
+
+    Check the DateTime module for finding out what methods you can use with
+    this object.
 
   county
     This method returns the county where the person was born or where he
