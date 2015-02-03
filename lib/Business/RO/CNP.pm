@@ -7,7 +7,7 @@ use Carp;
 
 use 5.008_008;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 around BUILDARGS => sub {
     my ( $orig, $class ) = ( shift, shift );
@@ -25,6 +25,7 @@ has cnp => ( is => 'ro', isa => 'Int', required => 1, );
 has sex_id => (
     is       => 'ro',
     isa      => 'Int',
+    lazy     => 1,
     init_arg => undef,
     default  => sub { substr shift->cnp, 0, 1 },
 );
@@ -85,6 +86,7 @@ sub _build_birthday {
 has county_id => (
     is       => 'ro',
     isa      => 'Int',
+    lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 7, 2 ) },
 );
@@ -151,6 +153,7 @@ sub _build_county {
 has order_number => (
     is       => 'ro',
     isa      => 'Int',
+    lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 9, 3 ) },
 );
@@ -158,6 +161,7 @@ has order_number => (
 has checksum => (
     is       => 'ro',
     isa      => 'Int',
+    lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 12, 1 ) },
 );

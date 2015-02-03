@@ -8,3 +8,6 @@ Added some more tests (t/invalid.t), improved the documentation, added some requ
 
 0.03 2011-01-23
 Tidy up, make it perlcritic-friendly.
+
+0.04 2015-02-03
+Fix Moose attributes initialization.
