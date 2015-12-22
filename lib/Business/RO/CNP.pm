@@ -1,7 +1,8 @@
 package Business::RO::CNP;
 
-use Moose;
+use Moo;
 use DateTime::Format::Strptime;
+use Types::Standard qw(Int Str InstanceOf);
 use utf8;
 use Carp;
 
@@ -20,17 +21,17 @@ around BUILDARGS => sub {
     }
 };
 
-has cnp => ( is => 'ro', isa => 'Int', required => 1, );
+has cnp => ( is => 'ro', isa => Int, required => 1, );
 
 has sex_id => (
     is       => 'ro',
-    isa      => 'Int',
+    isa      => Int,
     lazy     => 1,
     init_arg => undef,
     default  => sub { substr shift->cnp, 0, 1 },
 );
 
-has sex => ( is => 'ro', isa => 'Str', init_arg => undef, lazy_build => 1, );
+has sex => ( is => 'lazy', isa => Str, init_arg => undef, );
 
 sub _build_sex {
     my $self  = shift;
@@ -51,7 +52,7 @@ sub _build_sex {
 }
 
 has century =>
-  ( is => 'ro', isa => 'Int', init_arg => undef, lazy_build => 1, );
+  ( is => 'lazy', isa => Int, init_arg => undef, );
 
 sub _build_century {
     my $self = shift;
@@ -64,7 +65,7 @@ sub _build_century {
 }
 
 has birthday =>
-  ( is => 'ro', isa => 'DateTime', init_arg => undef, lazy_build => 1, );
+  ( is => 'lazy', isa => InstanceOf['DateTime'], init_arg => undef, );
 
 sub _build_birthday {
     my $self = shift;
@@ -85,13 +86,13 @@ sub _build_birthday {
 
 has county_id => (
     is       => 'ro',
-    isa      => 'Int',
+    isa      => Int,
     lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 7, 2 ) },
 );
 
-has county => ( is => 'ro', isa => 'Str', init_arg => undef, lazy_build => 1, );
+has county => ( is => 'lazy', isa => Str, init_arg => undef, );
 
 sub _build_county {
     my $self = shift;
@@ -152,7 +153,7 @@ sub _build_county {
 
 has order_number => (
     is       => 'ro',
-    isa      => 'Int',
+    isa      => Int,
     lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 9, 3 ) },
@@ -160,14 +161,14 @@ has order_number => (
 
 has checksum => (
     is       => 'ro',
-    isa      => 'Int',
+    isa      => Int,
     lazy     => 1,
     init_arg => undef,
     default  => sub { substr( shift->cnp, 12, 1 ) },
 );
 
 has validator =>
-  ( is => 'ro', isa => 'Int', init_arg => undef, lazy_build => 1, );
+  ( is => 'lazy', isa => Int, init_arg => undef, );
 
 sub _build_validator {
     my $self = shift;
